@@ -58,6 +58,7 @@ class Mouse:
             self.scroll_mode = not self.scroll_mode
             self.pos = (x, y)
             self.scroll_pos = (x, y)
+            self.delta = 0
 
 mouse = Mouse()
 # mouse.controller.position = (mouse.controller.position[0], 5000)

@@ -1,12 +1,9 @@
-import pyautogui
 from pynput.mouse import Button, Controller, Listener
 
 # TODO
 # block the mouse pointer and change its look when the middle button is clicked
 # refine delta
 # overwrite middle mouse button behavior from other programs
-
-SCREEN_HEIGHT = pyautogui.size()[1]
 
 class Mouse:
     def __init__(self):
@@ -19,20 +16,17 @@ class Mouse:
     
     def on_move(self, x, y):
         if self.scroll_mode:
-            d = self.pos[1] - y
-            
-            if self.delta * d < 0:
-                self.delta = d
-                self.scroll_pos = (x, y)
-            else:
-                self.delta += d
+            self.delta = self.delta + self.pos[1] - y
+            px_to_scr = self.px_to_scr - (0.1 * abs(self.scroll_pos[1] - y)) // 1
+            if px_to_scr < 2:
+                px_to_scr = 2
                 
             if self.delta > 0:
-                self.controller.scroll(0, self.delta // self.px_to_scr)
-                self.delta %= self.px_to_scr
-            else:
-                self.controller.scroll(0, -(-self.delta // self.px_to_scr))
-                self.delta = -(-self.delta % self.px_to_scr)
+                self.controller.scroll(0, self.delta // px_to_scr)
+                self.delta %= px_to_scr
+            elif self.delta < 0:
+                self.controller.scroll(0, -(-self.delta // px_to_scr))
+                self.delta = -(-self.delta % px_to_scr)
                 
             """
             while abs(self.delta) >= 10:
@@ -46,11 +40,6 @@ class Mouse:
             
             self.pos = (x, y)
             
-            global SCREEN_HEIGHT
-            if self.pos[1] in [0, SCREEN_HEIGHT]:
-                self.controller.position = self.scroll_pos
-                self.pos = self.scroll_pos
-
     def on_click(self, x, y, button, pressed):
         if button == Button.right:
             return False
@@ -61,8 +50,6 @@ class Mouse:
             self.delta = 0
 
 mouse = Mouse()
-# mouse.controller.position = (mouse.controller.position[0], 5000)
-# mouse.pos = mouse.controller.position
 
 with Listener(on_move = mouse.on_move, on_click = mouse.on_click) as listener:
     listener.join()

@@ -12,7 +12,7 @@ def on_move(x, y):
             direction = -1
         else:
             direction = 0
-        delay = 2 / (abs(delta) + 1)
+        delay = 3 / (abs(delta) + 1)
 
 def on_click(x, y, button, pressed):
     global pos, scroll_mode, direction, delay, end

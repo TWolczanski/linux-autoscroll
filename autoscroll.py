@@ -1,9 +1,9 @@
 from pynput.mouse import Button, Controller, Listener
 from threading import Event
-import time
+from time import sleep
 
 def on_move(x, y):
-    global pos, scroll_mode, direction, delay
+    global pos, scroll_mode, direction, interval, DELAY
     if scroll_mode.is_set():
         delta = pos[1] - y
         if delta > 0:
@@ -12,38 +12,37 @@ def on_move(x, y):
             direction = -1
         else:
             direction = 0
-        delay = 3 / (abs(delta) + 1)
+        if abs(delta) < 20:
+            interval = DELAY / 20
+        else:
+            interval = DELAY / abs(delta)
 
 def on_click(x, y, button, pressed):
-    global pos, scroll_mode, direction, delay, end
-    if button == Button.right:
-        end = True
-        scroll_mode.set()
-        return False
-    elif button == Button.middle and pressed:
+    global pos, scroll_mode, direction, interval, BUTTON
+    if button == BUTTON and pressed:
         if scroll_mode.is_set():
             scroll_mode.clear()
         else:
             pos = (x, y)
             direction = 0
-            delay = 0
+            interval = 0
             scroll_mode.set()
         
 def autoscroll():
-    global mouse, scroll_mode, direction, delay, end
-    while not end:
+    global mouse, scroll_mode, direction, interval
+    while True:
         scroll_mode.wait()
-        while scroll_mode.is_set() and not end:
-            time.sleep(delay)
-            mouse.scroll(0, direction)
+        sleep(interval)
+        mouse.scroll(0, direction)
 
 mouse = Controller()
-scroll_mode = Event()
 listener = Listener(on_move = on_move, on_click = on_click)
+scroll_mode = Event()
 pos = mouse.position
 direction = 0
-delay = 0
-end = False
+interval = 0
+DELAY = 3
+BUTTON = Button.middle
 
 listener.start()
 autoscroll()

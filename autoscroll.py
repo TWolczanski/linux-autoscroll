@@ -12,8 +12,8 @@ def on_move(x, y):
             direction = -1
         else:
             direction = 0
-        if abs(delta) < 20:
-            interval = DELAY / 20
+        if abs(delta) < DELAY * 2:
+            interval = 0.5
         else:
             interval = DELAY / abs(delta)
 
@@ -41,7 +41,10 @@ scroll_mode = Event()
 pos = mouse.position
 direction = 0
 interval = 0
-DELAY = 3
+
+# modify this to adjust the speed of scrolling
+DELAY = 5
+# modify this to change the button used for entering the scroll mode
 BUTTON = Button.middle
 
 listener.start()

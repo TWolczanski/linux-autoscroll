@@ -27,11 +27,11 @@ chmod u+x autoscroll.py
 
 ## Configuration
 
-You can adjust the `DELAY` and `BUTTON` constants for better experience.
+You can adjust the `DELAY`, `BUTTON_START` and `BUTTON_STOP` constants for better experience.
 
 By changing `DELAY` you can adjust the speed of scrolling. By default its value is 5 but you may find it either too fast or too slow. You can decrease the value to make scrolling faster or increase it to make scrolling slower.
 
-Modifying `BUTTON` is going to change the button used for entering the scroll mode. The default is the middle mouse button but if your mouse has additional side buttons it might be a good idea to use one of them instead, as the middle button is often used for different purposes (for example to open a link in a new tab in most web browsers or to copy and paste text system-wide). As the script is using the pynput library, you can hopefully find names of all of your mouse buttons with the following piece of code:
+Modifying `BUTTON_START` and `BUTTON_STOP` is going to change the button used for entering and exiting the scroll mode. The default for both is the middle mouse button but if your mouse has additional side buttons it might be a good idea to use them instead, as the middle button is often used for different purposes (for example to open a link in a new tab in most web browsers or to copy and paste text system-wide). As the script is using the pynput library, you can hopefully find names of all of your mouse buttons with the following piece of code:
 ```python
 from pynput.mouse import Button, Listener
 
@@ -47,6 +47,6 @@ with Listener(on_click = on_click) as listener:
 
 ## Usage
 
-Click the middle mouse button (or the button you have assigned to `BUTTON`) and move your mouse to start scrolling. The further you move the mouse (vertically) from the point where you clicked the button, the faster the scrolling becomes. To leave the scroll mode, simply press the button again.
+Click the middle mouse button (or the button you assigned to `BUTTON_START`) and move your mouse to start scrolling. The further you move the mouse (vertically) from the point where you have clicked the button, the faster the scrolling becomes. To leave the scroll mode, simply press the middle mouse button again (or press the button you assigned to `BUTTON_STOP`).
 
 Note that at slow speed the scrolling is not smooth and (probably) there is no way to make it smooth. However, one can easily get used to it.

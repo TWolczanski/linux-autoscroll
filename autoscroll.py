@@ -18,15 +18,14 @@ def on_move(x, y):
             interval = DELAY / abs(delta)
 
 def on_click(x, y, button, pressed):
-    global pos, scroll_mode, direction, interval, BUTTON
-    if button == BUTTON and pressed:
-        if scroll_mode.is_set():
-            scroll_mode.clear()
-        else:
-            pos = (x, y)
-            direction = 0
-            interval = 0
-            scroll_mode.set()
+    global pos, scroll_mode, direction, interval, BUTTON_START, BUTTON_STOP
+    if button == BUTTON_START and pressed and not scroll_mode.is_set():
+        pos = (x, y)
+        direction = 0
+        interval = 0
+        scroll_mode.set()
+    elif button == BUTTON_STOP and pressed and scroll_mode.is_set():
+        scroll_mode.clear()
         
 def autoscroll():
     global mouse, scroll_mode, direction, interval
@@ -45,7 +44,9 @@ interval = 0
 # modify this to adjust the speed of scrolling
 DELAY = 5
 # modify this to change the button used for entering the scroll mode
-BUTTON = Button.middle
+BUTTON_START = Button.middle
+# modify this to change the button used for exiting the scroll mode
+BUTTON_STOP = Button.middle
 
 listener.start()
 autoscroll()

@@ -27,7 +27,7 @@ chmod u+x autoscroll.py
 
 ## Configuration
 
-You can adjust the `DELAY`, `BUTTON_START` and `BUTTON_STOP` constants for better experience.
+You can adjust the `DELAY`, `BUTTON_START`, `BUTTON_STOP` and `DEAD_AREA` constants for better experience.
 
 By changing `DELAY` you can adjust the speed of scrolling. By default its value is 5 but you may find it either too fast or too slow. You can decrease the value to make scrolling faster or increase it to make scrolling slower.
 
@@ -44,6 +44,8 @@ def on_click(x, y, button, pressed):
 with Listener(on_click = on_click) as listener:
     listener.join()
 ```
+\
+By default the scrolling begins when the mouse pointer is 30 px below or above the point where `BUTTON_START` was pressed. In order to change that you can modify `DEAD_AREA`. If you set it to 0 (which is the minimum value), the scrolling will be paused only when the vertical position of the cursor is exactly the same as the position in which the scroll mode was activated.
 
 ## Usage
 

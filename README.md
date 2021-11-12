@@ -4,7 +4,7 @@ This simple Python script gives you a Windows-like autoscroll feature on Linux. 
 
 1. Clone the repository:
 ```
-git clone https://github.com/TWolczanski/linux-autoscroll.git
+git clone https://github.com/adeliktas/linux-autoscroll.git
 ```
 2. Create a Python virtual environment and activate it:
 ```
@@ -13,7 +13,8 @@ source .autoscroll/bin/activate
 ```
 3. Install pynput:
 ```
-python3 -m pip install pynput
+pip3 install --user pynput
+(python3 -m pip install pynput)
 ```
 4. Add the following shebang to the script (substitute `/path/to` with the actual path to your virtual environment):
 ```

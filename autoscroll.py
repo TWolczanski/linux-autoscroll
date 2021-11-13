@@ -1,6 +1,6 @@
 from pynput.mouse import Button, Controller, Listener
 from threading import Event
-from time import sleep
+import time
 
 def on_move(x, y):
     global pos, scroll_mode, direction, interval, DELAY, DEAD_AREA
@@ -19,19 +19,30 @@ def on_move(x, y):
 
 def on_click(x, y, button, pressed):
     global pos, scroll_mode, direction, interval, BUTTON_START, BUTTON_STOP
+    
+    #Trigger Delay 400ms to avoid instant changes
+    Triggerdelay = 0.4
+    global Timestart, Timeend, Timedelta
+    
     if button == BUTTON_START and pressed and not scroll_mode.is_set():
         pos = (x, y)
         direction = 0
         interval = 0
         scroll_mode.set()
-    elif button == BUTTON_STOP and pressed and scroll_mode.is_set():
+        Timestart = time.time()
+    elif button == BUTTON_STOP and not pressed and scroll_mode.is_set():
+        Timeend = time.time()
+        Timedelta = Timeend - Timestart
+        if Timedelta>Triggerdelay:
+            scroll_mode.clear()
+    elif (button == BUTTON_STOP or button==Button.left) and pressed and scroll_mode.is_set():
         scroll_mode.clear()
         
 def autoscroll():
     global mouse, scroll_mode, direction, interval
     while True:
         scroll_mode.wait()
-        sleep(interval)
+        time.sleep(interval)
         mouse.scroll(0, direction)
 
 mouse = Controller()
@@ -48,7 +59,8 @@ BUTTON_START = Button.middle
 # modify this to change the button used for exiting the scroll mode
 BUTTON_STOP = Button.middle
 # modify this to change the size (in px) of the area below and above the starting point where the scrolling is paused
-DEAD_AREA = 30
+DEAD_AREA = 10
+
 
 listener.start()
 autoscroll()

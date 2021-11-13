@@ -54,5 +54,6 @@ Click the middle mouse button (or the button you assigned to `BUTTON_START`) and
 
 Note that at slow speed the scrolling is not smooth and (probably) there is no way to make it smooth. However, one can easily get used to it.
 
-##Todo
+## Todo
+
 -improve scroll smoothness

@@ -57,3 +57,4 @@ Note that at slow speed the scrolling is not smooth and (probably) there is no w
 ## Todo
 
 -improve scroll smoothness
+-fix losing window title bar control handle

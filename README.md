@@ -53,3 +53,6 @@ By default the scrolling begins when the mouse pointer is 30 px below or above t
 Click the middle mouse button (or the button you assigned to `BUTTON_START`) and move your mouse to start scrolling. The further you move the mouse (vertically) from the point where you have clicked the button, the faster the scrolling becomes. To leave the scroll mode, simply press the middle mouse button again (or press the button you assigned to `BUTTON_STOP`).
 
 Note that at slow speed the scrolling is not smooth and (probably) there is no way to make it smooth. However, one can easily get used to it.
+
+##Todo
+-improve scroll smoothness

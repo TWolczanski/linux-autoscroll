@@ -24,8 +24,6 @@ class QMouseListener(QObject):
         self.listener.start()
 
 class Autoscrollsymbol(QtWidgets.QWidget):
-#create a timer with set interval, connect timeout to scroll function and
-#then you can replace scroll_mode = 1 with timer.start() and scroll_mode = 0 with timer.stop()
     def __init__(self, parent=None, windowSize=0, penWidth=0):
         QtWidgets.QWidget.__init__(self, parent)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.WindowTransparentForInput | QtCore.Qt.Tool)

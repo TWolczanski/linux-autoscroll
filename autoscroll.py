@@ -59,16 +59,17 @@ class Autoscrollsymbol(QtWidgets.QWidget):
     def on_move(self, x, y):
         if self.scroll_mode:
             delta = self.pos[1] - y
-            if abs(delta) <= self.DEAD_AREA:
+            absdelta = abs(delta)
+            if absdelta <= self.DEAD_AREA:
                 self.direction = 0
             elif delta > 0:
                 self.direction = 1
             elif delta < 0:
                 self.direction = -1
-            if abs(delta) <= self.DEAD_AREA:
+            if absdelta <= self.DEAD_AREA:
                 self.timer.setInterval(500)
             else:
-                self.timer.setInterval(int(self.DELAY / (abs(delta) - self.DEAD_AREA)))
+                self.timer.setInterval(int(self.DELAY / (absdelta - self.DEAD_AREA)))
         if not self.scroll_mode:
             self.move(x -int(crosssizepx/2),y -int(crosssizepx/2))
 

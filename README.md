@@ -4,7 +4,7 @@ This simple Python script gives you a Windows-like autoscroll feature on Linux. 
 
 1. Clone the repository:
 ```
-git clone https://github.com/TWolczanski/linux-autoscroll.git
+git clone https://github.com/adeliktas/linux-autoscroll.git
 ```
 2. Create a Python virtual environment and activate it:
 ```
@@ -13,7 +13,8 @@ source .autoscroll/bin/activate
 ```
 3. Install pynput:
 ```
-python3 -m pip install pynput
+pip3 install --user pynput
+(python3 -m pip install pynput)
 ```
 4. Add the following shebang to the script (substitute `/path/to` with the actual path to your virtual environment):
 ```
@@ -52,3 +53,8 @@ By default the scrolling begins when the mouse pointer is 30 px below or above t
 Click the middle mouse button (or the button you assigned to `BUTTON_START`) and move your mouse to start scrolling. The further you move the mouse (vertically) from the point where you have clicked the button, the faster the scrolling becomes. To leave the scroll mode, simply press the middle mouse button again (or press the button you assigned to `BUTTON_STOP`).
 
 Note that at slow speed the scrolling is not smooth and (probably) there is no way to make it smooth. However, one can easily get used to it.
+
+## Todo
+
+-improve scroll smoothness
+-fix losing window title bar control handle

@@ -4,7 +4,56 @@ from time import sleep
 from functools import partial
 from queue import Queue
 import subprocess
+import pyXCursor
+import tkinter as tk
+from tkinter import ttk
+import os
+import hashlib
 
+CURSOR_REFRENCE_IMAGE = "hand_cursor_refrence.png"
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+
+class CursorInfo():
+    def __init__(self) -> None:
+        self.cursor_refrence_image_exists = CURSOR_REFRENCE_IMAGE in os.listdir(os.path.dirname(os.path.realpath(__file__)))
+        self.cursor = pyXCursor.Xcursor()
+        self.imgarray = self.cursor.getCursorImageArrayFast()
+        self.root = None
+        self.sense()
+
+    def sense(self) -> None:
+        self.imgarray = self.cursor.getCursorImageArrayFast()
+        if not self.cursor_refrence_image_exists:
+            self.root = tk.Tk()
+            ttk.Button(self.root, text = "Click here to calibrate.\nKeep your cursor still on this button.",\
+                width = 40, command = self.save_cursor_image, cursor = "hand1").pack(padx = 50, pady = 50)
+            self.root.mainloop()
+
+    def save_cursor_image(self, filename = CURSOR_REFRENCE_IMAGE) -> None:
+        if not self.cursor_refrence_image_exists and filename == CURSOR_REFRENCE_IMAGE or filename != CURSOR_REFRENCE_IMAGE:
+            # print(f"saving '{filename}' to '{os.getcwd()}'")
+            self.cursor.saveImage(self.imgarray, filename)
+            # print("saved")
+            if filename == CURSOR_REFRENCE_IMAGE:
+                self.cursor_refrence_image_exists = True
+                self.root.destroy()
+
+    def is_hand_cursor(self) -> bool:
+        with open("hand_cursor_refrence.png", "rb") as f:
+            cursor_image_hash = hashlib.md5(f.read()).hexdigest()
+            f.close()
+        with open("cursor_image.png", "rb") as f:
+            cursor_image_hash_2 = hashlib.md5(f.read()).hexdigest()
+            f.close()
+        if cursor_image_hash != cursor_image_hash_2:
+            print("cursor image hash mismatch")
+            return False
+        else:
+            print("cursor image hash match")
+            return True
+
+cursorInfo = CursorInfo()
 
 class Autoscroll:
     def __init__(self):
@@ -47,7 +96,10 @@ class Autoscroll:
                 self.interval = self.DELAY / (abs(delta) - self.DEAD_AREA)
 
     def on_click(self, x, y, button, pressed):
-        if button == self.BUTTON_START and pressed and not self.scroll_mode.is_set():
+        cursorInfo.sense()
+        cursorInfo.save_cursor_image("cursor_image.png")
+        isHand = cursorInfo.is_hand_cursor()
+        if button == self.BUTTON_START and pressed and not self.scroll_mode.is_set() and not isHand:
             self.queue.put(partial(self.enter_scroll_mode, x, y))
             self.started = True
         elif button == self.BUTTON_START and not pressed and self.started:

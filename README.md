@@ -12,17 +12,21 @@ cd linux-autoscroll/
 python3 -m venv .autoscroll
 source .autoscroll/bin/activate
 ```
-3. Install necessary Python libraries (for `autoscroll_no_icon.py` you don't need the last one):
+3. Make sure that you have the `python3-dev` package installed:
+```
+sudo apt install python3-dev
+```
+4. Install necessary Python libraries (for `autoscroll_no_icon.py` you don't need the last one):
 ```
 python3 -m pip install wheel
 python3 -m pip install pynput
 python3 -m pip install PyQt5
 ```
-4. Add the following shebang to the script (substitute `/path/to` with the actual path):
+5. Add the following shebang to the script (substitute `/path/to` with the actual path):
 ```
 #!/path/to/linux-autoscroll/.autoscroll/bin/python3
 ```
-5. Make the script executable:
+6. Make the script executable:
 ```
 chmod u+x autoscroll.py
 ```
@@ -30,7 +34,7 @@ or
 ```
 chmod u+x autoscroll_no_icon.py
 ```
-6. Add the script to the list of autostart commands.
+7. Add the script to the list of autostart commands.
 
 ## Configuration
 
